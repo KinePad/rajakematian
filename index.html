@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung Mundur Tanggal Kematian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .countdown {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hitung Mundur Tanggal Kematian</h1>
+    <form id="deathForm">
+        <label for="name">Nama:</label>
+        <input type="text" id="name" required>
+        <br>
+        <label for="birthdate">Tanggal Lahir:</label>
+        <input type="date" id="birthdate" required>
+        <br>
+        <input type="submit" value="Hitung Mundur">
+    </form>
+    <div class="countdown" id="countdown">Silakan masukkan nama dan tanggal lahir</div>
+
+    <script>
+        document.getElementById('deathForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const birthdate = new Date(document.getElementById('birthdate').value);
+            const currentDate = new Date();
+            const age = currentDate.getFullYear() - birthdate.getFullYear();
+
+            // Menentukan tanggal kematian dengan menambahkan 100 tahun ke tanggal lahir
+            const deathDate = new Date(birthdate);
+            deathDate.setFullYear(birthdate.getFullYear() + 100);
+
+            const countdownElement = document.getElementById('countdown');
+            
+            function updateCountdown() {
+                const now = new Date();
+                const timeRemaining = deathDate - now;
+
+                if (timeRemaining <= 0) {
+                    countdownElement.textContent = 'Selamat! Kamu telah mencapai usia 100 tahun!';
+                    return;
+                }
+
+                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                countdownElement.textContent = `${days} Hari ${hours} Jam ${minutes} Menit ${seconds} Detik sampai usia 100 tahun`;
+            }
+
+            // Update countdown setiap detik
+            setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+</html>
